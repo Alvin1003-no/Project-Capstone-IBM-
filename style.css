@@ -1,0 +1,317 @@
+/* =====================================================
+   NgeCost – style.css
+   Custom styles beyond Tailwind CDN capabilities:
+   - Sidebar collapsed/expanded states & transition
+   - Navigation link states
+   - Page section SPA transitions
+   - Pie chart tooltip
+   - Airplane animation (modal phase 1)
+   - Modal entrance animation & backdrop
+   - Badge / category pill colors
+   - Scrollbar polish
+   ===================================================== */
+
+/* ---------- Font fallback ---------- */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* =====================================================
+   SIDEBAR – Collapsible layout
+   Sidebar berada dalam flex row bersama mainWrapper.
+   Dua state: sidebar-expanded (240px) & sidebar-collapsed (64px).
+   Transisi lebar menggunakan width + overflow:hidden.
+   ===================================================== */
+
+#sidebar {
+  width: 240px;
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative; /* bukan fixed agar flex row berjalan */
+}
+
+/* Pada mobile sidebar disembunyikan di luar layar secara default */
+@media (max-width: 767px) {
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 40;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                width 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 240px !important; /* di mobile selalu penuh ketika terbuka */
+  }
+  #sidebar.mobile-open {
+    transform: translateX(0);
+  }
+}
+
+/* Sidebar collapsed (desktop only) */
+@media (min-width: 768px) {
+  #sidebar.sidebar-collapsed {
+    width: 64px;
+  }
+  /* Sembunyikan label teks di collapsed */
+  #sidebar.sidebar-collapsed .nav-label,
+  #sidebar.sidebar-collapsed #sidebarLogo,
+  #sidebar.sidebar-collapsed .sidebar-footer {
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  /* Pusatkan ikon nav di collapsed */
+  #sidebar.sidebar-collapsed .nav-link {
+    justify-content: center;
+    padding: 10px;
+  }
+  /* Logo area saat collapsed: pusatkan logo */
+  #sidebar.sidebar-collapsed .sidebar-logo-wrap {
+    justify-content: center;
+  }
+}
+
+/* ---------- nav-label transition ---------- */
+.nav-label {
+  transition: opacity 0.2s, width 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ---------- Sidebar overlay (mobile) ---------- */
+.sidebar-overlay {
+  transition: opacity 0.25s;
+}
+
+/* =====================================================
+   NAVIGATION LINKS
+   ===================================================== */
+
+/* Sidebar nav icon */
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Desktop nav link */
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background 0.18s, color 0.18s;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+.nav-link:hover {
+  background: rgba(172, 228, 48, 0.12);
+  color: #ACE430;
+}
+.nav-link.nav-active {
+  background: rgba(172, 228, 48, 0.18);
+  color: #ACE430;
+}
+
+/* =====================================================
+   SPA PAGE VISIBILITY
+   ===================================================== */
+.page-section {
+  display: none;
+}
+.page-section.active {
+  display: block;
+  animation: fadeSlideIn 0.25s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   HISTORI FILTER TABS
+   ===================================================== */
+.filter-tab {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #57606a;
+  background: #f3f4f6;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.filter-tab:hover {
+  border-color: #ACE430;
+  color: #0A2C1B;
+}
+.filter-tab.filter-active {
+  background: #0A2C1B;
+  color: #ACE430;
+  border-color: #0A2C1B;
+}
+
+/* =====================================================
+   CATEGORY BADGE COLORS
+   ===================================================== */
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-makanan       { background: #e8f5d0; color: #4a7c10; }
+.badge-tabungan      { background: #d4ede3; color: #1e5c3c; }
+.badge-darurat       { background: #fff0e0; color: #b35800; }
+.badge-gaya-hidup    { background: #f0fce0; color: #3d6e00; }
+.badge-tagihan       { background: #fff4e0; color: #a85a00; }
+.badge-transportasi  { background: #fffbe0; color: #8a7200; }
+.badge-lain-lain     { background: #eef2e0; color: #4a5c00; }
+
+/* =====================================================
+   PIE CHART TOOLTIP
+   ===================================================== */
+#pieTooltip {
+  position: fixed;
+  background: #0A2C1B;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+#pieTooltip.visible {
+  opacity: 1;
+}
+
+/* =====================================================
+   AIRPLANE ANIMATION – Modal fase 1
+   ===================================================== */
+.airplane-container {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.airplane-fly {
+  display: inline-block;
+  animation: flyAcross 1.8s ease-in-out infinite;
+}
+@keyframes flyAcross {
+  0%   { transform: translateX(-28px) rotate(-8deg); opacity: 0; }
+  20%  { opacity: 1; }
+  50%  { transform: translateX(0px) rotate(0deg); }
+  80%  { opacity: 1; }
+  100% { transform: translateX(28px) rotate(8deg); opacity: 0; }
+}
+
+/* =====================================================
+   MODAL ENTRANCE ANIMATION
+   ===================================================== */
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.88) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-modal-in {
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Modal backdrop fade-in */
+.modal-backdrop {
+  animation: backdropIn 0.2s ease forwards;
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* =====================================================
+   LAPORAN FORM CARD
+   ===================================================== */
+.laporan-form-card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.18s;
+}
+.laporan-form-card:focus-within {
+  border-color: #ACE430;
+}
+
+/* Remove button inside laporan form */
+.btn-remove-form {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.btn-remove-form:hover {
+  background: #fca5a5;
+}
+
+/* =====================================================
+   ALOKASI CARDS
+   ===================================================== */
+.alokasi-card {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.alokasi-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* =====================================================
+   CUSTOM SCROLLBAR
+   ===================================================== */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+
+/* =====================================================
+   HIDE NUMBER INPUT SPIN BUTTONS
+   ===================================================== */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }

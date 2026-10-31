@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NgeCost – Manajemen Keuangan Anak Kos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-white font-[Inter] text-[#0A2C1B] min-h-screen">
+
+  <!-- =====================================================================
+       APP SHELL – sidebar + main dalam flex row penuh layar
+       ===================================================================== -->
+  <div id="appShell" class="flex min-h-screen">
+
+    <!-- =================== SIDEBAR =================== -->
+    <aside id="sidebar" class="sidebar-expanded bg-[#0A2C1B] flex flex-col z-40 flex-shrink-0 overflow-hidden">
+
+      <!-- Logo -->
+      <div class="flex items-center px-5 pt-6 pb-4">
+        <span id="sidebarLogo" class="text-xl font-extrabold text-white tracking-tight whitespace-nowrap">
+          Nge<span class="text-[#ACE430]">Cost</span>
+        </span>
+      </div>
+
+      <!-- Nav links -->
+      <nav class="flex flex-col gap-1 px-3 flex-1 sidebar-nav">
+        <button data-menu="dashboard" class="nav-link nav-active">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6"/>
+          </svg>
+          <span class="nav-label">Dashboard</span>
+        </button>
+        <button data-menu="tambah" class="nav-link">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span class="nav-label">Uang Bulanan</span>
+        </button>
+        <button data-menu="histori" class="nav-link">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          <span class="nav-label">Histori</span>
+        </button>
+        <button data-menu="laporan" class="nav-link">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+          </svg>
+          <span class="nav-label">Laporan</span>
+        </button>
+      </nav>
+
+      <!-- Footer versi -->
+      <div class="px-5 py-5 border-t border-white/10 sidebar-footer">
+        <p class="text-white/35 text-xs whitespace-nowrap">v1.0.0 – Oktober 2026</p>
+      </div>
+    </aside>
+
+    <!-- Overlay mobile (klik untuk tutup sidebar) -->
+    <div id="sidebarOverlay" class="sidebar-overlay hidden fixed inset-0 bg-black/50 z-30 md:hidden"></div>
+
+    <!-- =================== MAIN CONTENT =================== -->
+    <div id="mainWrapper" class="flex-1 flex flex-col min-w-0 transition-all duration-300">
+
+      <!-- Top bar (hamburger + judul halaman) -->
+      <header class="sticky top-0 z-20 bg-white border-b border-gray-100 flex items-center gap-3 px-5 py-3 shadow-sm">
+        <!-- Hamburger: selalu tampil, buka sidebar ketika collapsed / mobile -->
+        <button id="hamburgerBtn" class="p-2 rounded-lg hover:bg-gray-100 transition flex-shrink-0" title="Buka/Tutup menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#0A2C1B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <span id="pageTitle" class="text-base font-bold text-[#0A2C1B] truncate">Dashboard</span>
+        <!-- Logo tampil di kanan untuk mobile ketika sidebar tertutup -->
+        <span class="ml-auto text-sm font-extrabold text-[#0A2C1B] md:hidden">Nge<span class="text-[#ACE430]">Cost</span></span>
+      </header>
+
+      <!-- Konten halaman SPA -->
+      <div class="flex-1 overflow-y-auto">
+
+        <!-- ======= PAGE: DASHBOARD ======= -->
+        <section id="page-dashboard" class="page-section active w-full px-5 py-6 md:px-10 md:py-8">
+          <!-- Greeting -->
+          <div class="mb-6">
+            <p class="text-sm text-gray-400 font-medium">Selamat datang kembali</p>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-[#0A2C1B] leading-tight">Hi, Alvin Andhika Putra</h1>
+          </div>
+
+          <!-- Saldo Utama Card -->
+          <div class="rounded-2xl bg-[#0A2C1B] text-white p-6 shadow-xl mb-4 relative overflow-hidden">
+            <div class="absolute -top-8 -right-8 w-36 h-36 rounded-full bg-white/5"></div>
+            <div class="absolute -bottom-6 -left-6 w-28 h-28 rounded-full bg-[#ACE430]/10"></div>
+            <p class="text-sm text-white/60 font-medium mb-1">Saldo Saat Ini</p>
+            <div class="flex items-center gap-3">
+              <span id="saldoUtamaDisplay" class="text-3xl md:text-4xl font-extrabold tracking-tight">Rp ••••••••</span>
+              <button id="toggleSaldoUtama" class="p-1.5 rounded-full hover:bg-white/10 transition" title="Tampilkan/Sembunyikan">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </button>
+            </div>
+            <p class="text-xs text-white/40 mt-3">Diperbarui otomatis</p>
+          </div>
+
+          <!-- Sub-Saldo Grid -->
+          <div class="grid grid-cols-2 gap-3 mb-6">
+            <!-- Tabungan -->
+            <div class="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="w-8 h-8 rounded-full bg-[#3B7A57]/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#3B7A57]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                  </span>
+                  <p class="text-xs font-semibold text-gray-500">Tabungan</p>
+                </div>
+                <button class="toggle-sub p-1 rounded hover:bg-gray-100 transition" data-target="saldoTabunganDisplay">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  </svg>
+                </button>
+              </div>
+              <p id="saldoTabunganDisplay" class="text-lg font-bold text-[#0A2C1B]">Rp ••••••</p>
+            </div>
+            <!-- Dana Darurat -->
+            <div class="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="w-8 h-8 rounded-full bg-[#FFA042]/10 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#FFA042]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                  </span>
+                  <p class="text-xs font-semibold text-gray-500">Dana Darurat</p>
+                </div>
+                <button class="toggle-sub p-1 rounded hover:bg-gray-100 transition" data-target="saldoDaruratDisplay">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                  </svg>
+                </button>
+              </div>
+              <p id="saldoDaruratDisplay" class="text-lg font-bold text-[#0A2C1B]">Rp ••••••</p>
+            </div>
+          </div>
+
+          <!-- Histori Terbaru -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-base font-bold text-[#0A2C1B]">Transaksi Terbaru</h2>
+              <button data-menu="histori" class="nav-trigger text-xs font-semibold text-[#ACE430] hover:underline">Lihat Semua</button>
+            </div>
+            <div id="historiDashboard" class="flex flex-col gap-2"></div>
+          </div>
+        </section>
+
+        <!-- ======= PAGE: TAMBAH UANG BULANAN ======= -->
+        <section id="page-tambah" class="page-section w-full px-5 py-6 md:px-10 md:py-8">
+          <h1 class="text-2xl font-extrabold text-[#0A2C1B] mb-1">Tambah Uang Bulanan</h1>
+          <p class="text-sm text-gray-400 mb-6">Masukkan uang bulanan kamu dan sistem akan mengalokasikan otomatis.</p>
+
+          <!-- Form Input -->
+          <div class="rounded-2xl border border-gray-100 bg-white shadow-sm p-5 mb-6">
+            <label class="block text-sm font-semibold text-[#0A2C1B] mb-2">Nominal Uang Bulanan</label>
+            <div class="flex gap-2">
+              <div class="relative flex-1">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-400">Rp</span>
+                <input id="inputUangBulanan" type="number" min="0" placeholder="1500000"
+                  class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#ACE430] text-sm font-semibold transition"/>
+              </div>
+              <button id="btnHitung" class="px-5 py-3 rounded-xl bg-[#ACE430] text-[#0A2C1B] font-bold text-sm hover:bg-[#9bd62e] active:scale-95 transition shadow-sm">
+                Hitung
+              </button>
+            </div>
+          </div>
+
+          <!-- Hasil Alokasi (hidden until submit) -->
+          <div id="hasilAlokasi" class="hidden">
+            <h2 class="text-base font-bold text-[#0A2C1B] mb-3">Rincian Alokasi Bulanan</h2>
+            <div class="rounded-2xl border border-gray-100 bg-white shadow-sm p-5 mb-4 flex flex-col items-center">
+              <svg id="pieChart" viewBox="0 0 220 220" class="w-52 h-52 md:w-60 md:h-60" aria-label="Pie Chart Alokasi"></svg>
+              <div id="pieLegend" class="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 w-full max-w-sm text-xs"></div>
+            </div>
+            <div id="alokasiCards" class="grid grid-cols-2 gap-3"></div>
+            <button id="btnKonfirmasiAlokasi" class="mt-5 w-full py-3.5 rounded-xl bg-[#0A2C1B] text-white font-bold text-sm hover:bg-[#0d3a22] active:scale-95 transition shadow">
+              Konfirmasi &amp; Simpan Alokasi
+            </button>
+          </div>
+        </section>
+
+        <!-- ======= PAGE: HISTORI ======= -->
+        <section id="page-histori" class="page-section w-full px-5 py-6 md:px-10 md:py-8">
+          <h1 class="text-2xl font-extrabold text-[#0A2C1B] mb-1">Histori Pengeluaran</h1>
+          <p class="text-sm text-gray-400 mb-5">Lihat riwayat semua transaksi kamu.</p>
+
+          <div class="flex gap-2 mb-4">
+            <button data-filter="harian"   class="filter-tab filter-active">Harian</button>
+            <button data-filter="mingguan" class="filter-tab">Mingguan</button>
+            <button data-filter="bulanan"  class="filter-tab">Bulanan</button>
+          </div>
+
+          <div class="rounded-2xl bg-[#0A2C1B] text-white p-5 mb-5 shadow-md">
+            <p id="historiInfoLabel" class="text-xs text-white/60 font-medium mb-1">Pengeluaran Hari Ini</p>
+            <p id="historiInfoNominal" class="text-2xl font-extrabold">Rp 0</p>
+          </div>
+
+          <div id="historiList" class="flex flex-col gap-2"></div>
+        </section>
+
+        <!-- ======= PAGE: LAPORAN ======= -->
+        <section id="page-laporan" class="page-section w-full px-5 py-6 md:px-10 md:py-8">
+          <h1 class="text-2xl font-extrabold text-[#0A2C1B] text-center mb-1">Laporan Pengeluaran Harian</h1>
+          <p class="text-sm text-gray-400 text-center mb-6">Catat setiap pengeluaran kamu hari ini.</p>
+
+          <div id="laporanFormContainer" class="flex flex-col gap-4 mb-4"></div>
+
+          <div class="flex gap-3 mt-2">
+            <button id="btnTambahLaporan" class="flex-1 py-3 rounded-xl border-2 border-[#ACE430] text-[#0A2C1B] font-bold text-sm hover:bg-[#f5fce8] active:scale-95 transition">
+              + Tambah Laporan
+            </button>
+            <button id="btnSimpanLaporan" class="flex-1 py-3 rounded-xl bg-[#ACE430] text-[#0A2C1B] font-bold text-sm hover:bg-[#9bd62e] active:scale-95 transition shadow">
+              Sip, Catat!
+            </button>
+          </div>
+        </section>
+
+      </div><!-- /konten halaman SPA -->
+    </div><!-- /mainWrapper -->
+  </div><!-- /appShell -->
+
+  <!-- =====================================================================
+       MODAL: LAPORAN WORKFLOW (loading + sukses)
+       ===================================================================== -->
+  <div id="modalOverlay" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 modal-backdrop">
+    <div id="modalBox" class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center relative animate-modal-in">
+      <!-- Phase 1: Loading – TANPA tombol close -->
+      <div id="modalPhase1">
+        <div class="airplane-container mb-4">
+          <svg id="airplaneSvg" class="airplane-fly w-12 h-12 text-[#0A2C1B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+          </svg>
+        </div>
+        <p class="text-base font-bold text-[#0A2C1B]">Proses laporan harian sedang dicatat...</p>
+        <p class="text-xs text-gray-400 mt-1">Mohon tunggu sebentar</p>
+      </div>
+      <!-- Phase 2: Sukses – ADA tombol close -->
+      <div id="modalPhase2" class="hidden">
+        <button id="modalCloseBtn" class="absolute top-4 right-4 p-1.5 rounded-full hover:bg-gray-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+        <div class="w-16 h-16 rounded-full bg-[#ACE430]/20 flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-[#0A2C1B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <p class="text-xl font-extrabold text-[#0A2C1B]">Berhasil Tercatat!</p>
+        <p class="text-sm text-gray-400 mt-1">Pengeluaran kamu telah disimpan ke histori.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL: INFO / ERROR (pengganti alert() browser)
+       ===================================================================== -->
+  <div id="infoModalOverlay" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 modal-backdrop">
+    <div id="infoModalBox" class="bg-white rounded-2xl shadow-2xl p-7 max-w-sm w-full text-center relative animate-modal-in">
+      <button id="infoModalCloseBtn" class="absolute top-4 right-4 p-1.5 rounded-full hover:bg-gray-100 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      <!-- Icon area -->
+      <div id="infoModalIcon" class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"></div>
+      <p id="infoModalTitle" class="text-lg font-extrabold text-[#0A2C1B] mb-1"></p>
+      <p id="infoModalBody" class="text-sm text-gray-500 leading-relaxed whitespace-pre-line"></p>
+      <button id="infoModalOkBtn" class="mt-5 w-full py-2.5 rounded-xl bg-[#0A2C1B] text-white font-bold text-sm hover:bg-[#0d3a22] active:scale-95 transition">
+        Mengerti
+      </button>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL: KONFIRMASI ALOKASI (pengganti alert() sukses)
+       ===================================================================== -->
+  <div id="alokasiModalOverlay" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 modal-backdrop">
+    <div id="alokasiModalBox" class="bg-white rounded-2xl shadow-2xl p-7 max-w-sm w-full text-center relative animate-modal-in">
+      <div class="w-14 h-14 rounded-full bg-[#ACE430]/20 flex items-center justify-center mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-[#0A2C1B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+      <p class="text-lg font-extrabold text-[#0A2C1B] mb-3">Alokasi Berhasil Disimpan!</p>
+      <div id="alokasiModalDetail" class="bg-gray-50 rounded-xl p-4 text-left text-sm space-y-2 mb-5"></div>
+      <button id="alokasiModalOkBtn" class="w-full py-2.5 rounded-xl bg-[#0A2C1B] text-white font-bold text-sm hover:bg-[#0d3a22] active:scale-95 transition">
+        Lihat Dashboard
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
