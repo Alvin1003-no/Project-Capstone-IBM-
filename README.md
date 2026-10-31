@@ -40,3 +40,8 @@ NgeCost hadir sebagai solusi berbasis web yang simpel namun bertenaga. Dengan si
     - Fluid Full-Width Layout yang memanfaatkan ruang layar secara optimal (tanpa area kosong gantung).
     - Bebas dari emoticon/emoji untuk kesan profesional dan bersih.
     - Bebas dari alert() bawaan browser (seluruh notifikasi menggunakan Custom HTML Modal)
+
+### Demo Website NgeCost
+[![Simulasi Website NgeCost](https://img.youtube.com/vi/GNafGAAnHK0/0.jpg)](https://www.youtube.com/watch?v=GNafGAAnHK0)
+
+> Klik gambar di atas untuk menonton video demo lengkap simulasi Website NgeCost di YouTube.
